@@ -1,0 +1,32 @@
+---
+- hosts: app
+  tasks:
+    - name: Update the sources list
+      # apt:
+      shell: sudo apt-get update -y
+    - name: upgrade any packages available
+      # apt:
+      shell: sudo apt-get upgrade -y
+    - name: install nginx
+      # apt:
+      shell: sudo apt-get install nginx -y
+    - name: install git
+      shell: sudo apt-get install git -y
+    # - name: install nodejs
+      # shell: sudo apt-get install python-software-properties
+    - name: nodejs source
+      # apt:
+      #   pkg: nodejs
+      shell: curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+    - name: install nodejs
+      shell: sudo apt-get install nodejs -y
+    - name: install pm2
+      shell: sudo npm install pm2 -g
+
+# - hosts: db
+#
+#   tasks:
+#   - name:
+#     yum:
+#   - name:
+#     service:
