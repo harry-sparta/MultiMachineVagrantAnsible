@@ -1,0 +1,22 @@
+---
+- hosts: db
+  tasks:
+    - name: import public key used by the package system
+      shell: wget -qO - https://www.mongodb.org/static/pgp/server-3.2.asc | sudo apt-key add -
+    - name: insert mongod source
+      shell: echo "deb http://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/3.2 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.2.list
+    - name: get Update from source
+      shell: sudo apt-get update
+    - name: Install MongoDB packages
+      shell: sudo apt-get install -y mongodb-org=3.2.20 mongodb-org-server=3.2.20 mongodb-org-shell=3.2.20 mongodb-org-mongos=3.2.20 mongodb-org-tools=3.2.20
+    - name: remove existing mongod.conf
+      shell: sudo rm /etc/mongod.conf
+# linking VM directory file and dump a file (etc/mongod.conf)
+    - name: Creating a synced connection - Linking VM file to MongoDB conf
+      shell: sudo ln -s /home/ubuntu/environment/mongod.conf /etc/mongod.conf
+    - name: restarting VM
+      shell: sudo systemctl restart mongod
+    - name: enabling VM
+      shell: sudo systemctl enable mongod
+    - name: Verify that MongoDB has started successfully
+      shell: sudo service mongod status
